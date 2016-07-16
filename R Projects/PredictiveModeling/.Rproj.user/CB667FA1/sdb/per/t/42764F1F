@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "## My first predictive model\n##########\n##  Function to flag missing value in variables\n##########\nflag_missing_val <- function(data, var) {\n  data$missing_yn <- ifelse(is.na(data$var), 1, 0)\n  idx <- which(data$missing_yn == 1)\n  return(idx)\n}\n##########\n##  Function to impute missing value in variables\n##########\nimpute_vars <- function(data, var, idx) {\n  ## Mean imputation\n  if (is.numeric(data$var)) {\n    mean_val <- mean(data$var)\n    data$var[idx] <- mean_val\n  } else{\n    data$var[idx] <- 'NULL'\n  }\n  return(data)\n}\n####################\n##  Create basic model\n####################\ncreate_model <- function(trainData, target) {\n  set.seed(120)\n  model <- lm(target ~ . , data = trainData)\n  return(model)\n}\n############\n## AUC calculation for Kaggle\n############\nauc4kaggle <- function(outcome, proba){\n  N = length(proba)\n  N_pos = sum(outcome)\n  df = data.frame(out = outcome, prob = proba)\n  df = df[order(-df$prob),]\n  df$above = (1:N) - cumsum(df$out)\n  return( 1- sum( df$above * df$out ) / (N_pos * (N-N_pos) ) )\n}\n###############################################\n##  Action!\n##############################################\nred_wine_data <-\n  read.csv(\n    'data/winequality-red.csv',\n    check.names = F,\n    sep = ';',\n    stringsAsFactors = T\n  )\ncolnames(red_wine_data)\nstr(red_wine_data)\n####\nwhite_wine_data <-\n  read.csv(\n    'data/winequality-white.csv',\n    check.names = F,\n    sep = ';',\n    stringsAsFactors = T\n  )\n#########################\n##  Data treatment\n# for(c in colnames(red_wine_data)){\n#   idx <- flag_missing_val(red_wine_data,c)\n#   if(length(idx) != 0){\n#     red_wine_data <- impute_vars(red_wine_data,c,idx)    \n#   }\n# }\n#########################\nlibrary(caret)\nlibrary(pROC)\n#####\ntrain_idx <- createDataPartition(y = red_wine_data$quality,times = 1,p = 0.66,list = F)\nmodel <- create_model(red_wine_data[train_idx,],red_wine_data$quality[train_idx])\nscore <- predict.lm(model,newdata = red_wine_data[-train_idx,])\n##\nauc(red_wine_data$quality[-train_idx],score)\n###\ntrain_idx <- createDataPartition(y = white_wine_data$quality,times = 1,p = 0.66,list = F)\nmodel <- create_model(white_wine_data[train_idx,],white_wine_data$quality[train_idx])\nscore <- predict.lm(model,newdata = white_wine_data[-train_idx,])\n##\nauc(white_wine_data$quality[-train_idx],score)\n",
+    "created" : 1466647212200.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1489927510",
+    "id" : "42764F1F",
+    "lastKnownWriteTime" : 1466651452,
+    "last_content_update" : 1466651452142,
+    "path" : "F:/Data science/R Projects/PredictiveModeling/MyFirstPredictiveModel.R",
+    "project_path" : "MyFirstPredictiveModel.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

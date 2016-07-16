@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# install.packages('survival')\nlibrary(survival)\ninData <- read.csv('?')\nattach(inData)\n###\n## PLACEHOLDER: [Read features with their names]\nCust <- Customer_id\nl_resp <- Last_Response_tag\nPlat <- Platinum_flag\nspan <- Months\nResp <- Purchase_2k\nX <- cbind(l_resp, Plat)\n###\n##  Non-paramteric sol\n###\nkmsurv <- survfit(Surv(span, Resp) ~ 1)\nsummary(kmsurv)\nplot(kmsurv, xlab = \"Span\", ylab = \"Survival probability\")\n#############\n# 1. The curve starts from a point below 1, which means some of the observation/customer made an immediate purchase of $20,000 just after receiving the offer (in month 0)\n#\n# 2. After 6 months, around 62% of the population have survived. In other words, 38% of the population has made a purchase of more than $20,000\n#\n# 3. Around 38% of the population survives even after 12 months. This does not mean they will never make a purchase. But from a non-parametric solution we cannot extrapolate the solution for more than 12 months.\n#####################\ngroup1 <- l_resp\n\ngroup2 <- Plat\n\nkmsurv1 <- survfit(Surv(span, Resp) ~ group1)\nsummary(kmsurv1)\nplot(kmsurv1,\n     xlab =  'span',\n     ylab = 'Survival Proabability')\n\n#######################\n##  Semi parametric sol\n######################\ncoxph <- coxph(Surv(span,Resp)~X,method = 'breslow')\n\nsummary(coxph)",
+    "created" : 1466736838195.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "181978447",
+    "id" : "D70D39B2",
+    "lastKnownWriteTime" : 1466738066,
+    "last_content_update" : 1466738066575,
+    "path" : "F:/Data science/R Projects/SurvivalAnalysis_101/Example.R",
+    "project_path" : "Example.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

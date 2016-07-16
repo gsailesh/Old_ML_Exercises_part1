@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "sales_data <- c(18,\n                33,\n                41,\n                7,\n                34,\n                35,\n                24,\n                25,\n                24,\n                21,\n                25,\n                20,\n                22,\n                31,\n                40,\n                29,\n                25,\n                21,\n                22,\n                54,\n                31,\n                25,\n                26,\n                35)\ntsales <- ts(sales_data, start = c(2016, 1), frequency = 12)\nplot(tsales, type = 'o', pch = 20)\ntsales\n################################\n# install.packages('forecast')\nlibrary(forecast)\nopar <- par(no.readonly = T)\npar(mfrow = c(2, 2))\nylim <- c(min(Nile), max(Nile))\nplot(Nile, main = 'Raw time series')\nplot(ma(Nile, order = 3), main = 'k=3', ylim = ylim)\nplot(ma(Nile, order = 5), main = 'k=5', ylim = ylim)\nplot(ma(Nile, order = 15), main = 'k=15', ylim = ylim)\n######################################################################################\nplot(AirPassengers)\nlAirPassengers <- log(AirPassengers)\nplot(lAirPassengers,ylab = 'log(AirPassengers)')\nlibrary(forecast)\nfit <- stl(lAirPassengers,s.window = 'periodic')\nfit$time.series\nplot(fit$time.series)\n# plot(fit)\nexp(fit$time.series)\nmonthplot(AirPassengers)\nseasonplot(AirPassengers,year.labels = T)\n######################################################################################\n######################################################################################\n##\nlibrary(forecast)\nfit <- ets(nhtemp,model = 'ANN')\nfit\nforecast(fit,3)\n",
+    "created" : 1465871311316.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2739582323",
+    "id" : "68EFBDC7",
+    "lastKnownWriteTime" : 1465956557,
+    "last_content_update" : 1465956557770,
+    "path" : "F:/Data science/R Projects/TimeSeries_101/01_example.R",
+    "project_path" : "01_example.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

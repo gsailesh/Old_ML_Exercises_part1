@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "custdata <-\n  read.table('../../Resources/Datasets/101s/Custdata.tsv',\n             sep = '\\t',\n             header = T)\nsummary(custdata)\n####  Age - Health insurance scatterplot\nlibrary(ggplot2)\nggplot(custdata, aes(age, health.ins)) +\n  geom_point()\n####\nwith(custdata, table(sex, health.ins))\nwith(custdata, table(is.employed, health.ins))\nwith(custdata, table(state.of.res, health.ins))\n####\n",
+    "created" : 1467860407650.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1537756619",
+    "id" : "AFCDD084",
+    "lastKnownWriteTime" : 1467872377,
+    "last_content_update" : 1467872377717,
+    "path" : "F:/Data science/R Projects/PredictiveModeling/CustDataExploration.R",
+    "project_path" : "CustDataExploration.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

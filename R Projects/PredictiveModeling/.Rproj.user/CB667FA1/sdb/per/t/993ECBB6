@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#### Ensemble learning & Boosting techniques\nforest_fire_data <- read.csv('data/forestfires.csv')\nforest_fire_data$logArea <- log(forest_fire_data$area + 1)\nlibrary(dplyr)\n##################\n##  Feature selection - Pending\n# lin_model <- lm(logArea ~ .,forest_fire_data[-13])\n# summary(lin_model)\ncolnames(forest_fire_data)\nfeatures <- c('temp', 'RH', 'wind', 'rain')\n##################\nlibrary(e1071)\nlibrary(caret)\nfor (run in 1:30) {\n  print(paste0('------------',run,'------------'))\n  train_idx <-\n    createDataPartition(forest_fire_data$logArea, p = c(0.67, 0.33))\n  cost_var <- seq(0.1, 1, 0.1)\n  eps_var <- seq(0.01, 0.99, 0.03)\n  accuracy <- 0\n  optimal_eps <- 0\n  optimal_cost <- 0\n  for (c in cost_var) {\n    # print(c)\n    for (e in eps_var) {\n      # print(e)\n      svr_model <-\n        svm(\n          data.matrix(forest_fire_data[train_idx[[1]], features]),\n          forest_fire_data$logArea[train_idx[[1]]],\n          type = 'eps-regression',\n          kernel = 'radial',\n          cross = 10,\n          cost = c,\n          epsilon = e\n        )\n      predictions <-\n        predict(svr_model, newdata = forest_fire_data[-train_idx[[1]], features])\n      score <-\n        ifelse(predictions - forest_fire_data$logArea[-train_idx[[1]]] < 0.1, 1, 0)\n      tmp_accuracy <- sum(score) / length(score)\n      if (tmp_accuracy > accuracy) {\n        accuracy <- tmp_accuracy\n        optimal_eps <- e\n        optimal_cost <- c\n      }\n    }\n  }\n  print(paste0(\"Accuracy: \",accuracy, ':: cost = ', c, ' :: epsilon = ', e))\n}\n",
+    "created" : 1466948776468.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3629979538",
+    "id" : "993ECBB6",
+    "lastKnownWriteTime" : 1466962504,
+    "last_content_update" : 1466962504853,
+    "path" : "F:/Data science/R Projects/PredictiveModeling/EnsembleAndBoosting.R",
+    "project_path" : "EnsembleAndBoosting.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
